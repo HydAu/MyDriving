@@ -35,7 +35,6 @@ namespace MyTrips.UWP.Views
         public Trip SelectedTrip;
 
         public List<TripPoint> TripPoints { get; set; }
-      
         public PastTripMapView()
         {
             this.InitializeComponent();
@@ -139,8 +138,7 @@ namespace MyTrips.UWP.Views
         private async void positionSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
             ViewModel.CurrentPosition = this.TripPoints[(int)e.NewValue];
-
-            var basicGeoposition = Locations[(int)e.NewValue]; 
+            var basicGeoposition = Locations[(int)e.NewValue];
             // Currently removing the Car from Map which is the last item added. 
             MyMap.MapElements.RemoveAt(MyMap.MapElements.Count - 1);
             DrawCarOnMap(basicGeoposition);
@@ -153,7 +151,7 @@ namespace MyTrips.UWP.Views
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 // TODO: Need to fix data binding and remove this code. 
-                this.text_time.Text = ViewModel.ElapsedTime ;
+                this.text_time.Text = ViewModel.ElapsedTime;
                 this.text_miles.Text = ViewModel.Distance;
                 this.text_gallons.Text = ViewModel.FuelConsumption;
                 this.text_temp.Text = ViewModel.EngineLoad;
