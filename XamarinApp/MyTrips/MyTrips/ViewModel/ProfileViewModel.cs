@@ -7,7 +7,6 @@ using System.Linq;
 using System;
 using MyTrips.DataObjects;
 
-
 namespace MyTrips.ViewModel
 {
     public class ProfileViewModel : ViewModelBase
@@ -57,6 +56,7 @@ namespace MyTrips.ViewModel
                     TotalTime = currentUser.TotalTime;
                     TotalTrips = currentUser.TotalTrips;
                     FuelUsed = currentUser.FuelConsumption;
+					MaxSpeed = currentUser.MaxSpeed;
 #if DEBUG
                     DrivingSkills = 86;
 #else
@@ -93,7 +93,6 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref drivingSkillsPlacementBucket, value); }
         }
 
-
         public string FuelUnits => Settings.MetricUnits ? "L" : "gal.";
 
         public double FuelConverted => Settings.MetricUnits ? FuelUsed / .264172 : FuelUsed;
@@ -101,7 +100,6 @@ namespace MyTrips.ViewModel
         public string FuelDisplayNoUnits => FuelConverted.ToString("F");
 
 		public string FuelDisplay => $"{FuelDisplayNoUnits} {FuelUnits.ToLowerInvariant()}";
-
 
         public string DistanceUnits => Settings.MetricDistance ? "kilometers" : "miles";
 
@@ -111,15 +109,13 @@ namespace MyTrips.ViewModel
 
         public double DistanceConverted => (Settings.Current.MetricDistance ? (TotalDistance * 1.60934) : TotalDistance);
 
-        public string SpeedUnits => Settings.MetricUnits ? "km/h" : "mph";
+		public string SpeedUnits => Settings.MetricDistance ? "km/h" : "mph";
 
-        public double MaxSpeedConverted => Settings.MetricDistance ? MaxSpeed : MaxSpeed * 0.621371;
+		public double MaxSpeedConverted => Settings.MetricDistance ? MaxSpeed : MaxSpeed * 0.621371;
 
         public string MaxSpeedDisplayNoUnits => MaxSpeedConverted.ToString("F");
 
         public string MaxSpeedDisplay => $"{MaxSpeedDisplayNoUnits} {SpeedUnits}";
-
-
 
         public string TotalTimeDisplay
         {
@@ -161,7 +157,6 @@ namespace MyTrips.ViewModel
                 if (!SetProperty(ref fuelUsed, value))
                     return;
 
-
                 OnPropertyChanged(nameof(FuelUnits));
                 OnPropertyChanged(nameof(FuelDisplay));
                 OnPropertyChanged(nameof(FuelDisplayNoUnits));
@@ -191,14 +186,12 @@ namespace MyTrips.ViewModel
                 if (!SetProperty(ref maxSpeed, value))
                     return;
 
-
                 OnPropertyChanged(nameof(SpeedUnits));
                 OnPropertyChanged(nameof(MaxSpeedConverted));
                 OnPropertyChanged(nameof(MaxSpeedDisplayNoUnits));
                 OnPropertyChanged(nameof(MaxSpeedDisplay));
             }
         }
-
 
         long hardStops;
         public long HardStops
@@ -221,13 +214,11 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref totalTrips, value); }
         }
 
-
         async Task UpdatePictureAsync()
         {
             IMobileServiceClient client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
             await Helpers.UserProfileHelper.GetUserProfileAsync(client);
         }
-
 
         DrivingSkillsBucket[] Skills
         {

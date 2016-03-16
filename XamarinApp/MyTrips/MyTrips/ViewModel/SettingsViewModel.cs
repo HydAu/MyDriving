@@ -47,27 +47,22 @@ namespace MyTrips.ViewModel
         ICommand  logoutCommand;
         public ICommand LogoutCommand =>
             logoutCommand ?? (logoutCommand = new RelayCommand(async () => await ExecuteLogoutCommandAsync())); 
-
        
         public async Task<bool> ExecuteLogoutCommandAsync()
         {
             var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Logging out...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
             
             try
-            {
-                
+            {                
                  var result = await Acr.UserDialogs.UserDialogs.Instance.ConfirmAsync("Are you sure you want to logout?", "Logout?", "Yes, Logout", "Cancel");
 
                 if (!result)
-                    return false;
-                
-
+                    return false;                
 
                 progress?.Show();
                 await StoreManager.DropEverythingAsync();
 
                 Settings.Logout();
-
             }
             catch (Exception ex)
             {
@@ -100,8 +95,8 @@ namespace MyTrips.ViewModel
 						distanceSetting, capacitySetting
 					};
 
-					var deviceConnectionString = new Setting { Name = "Device connection string", IsTextField = true };
-					var mobileClientUrl = new Setting { Name = "Mobile client URL", IsTextField = true };
+					var deviceConnectionString = new Setting { Name = "Device connection string", Value = Settings.Current.DeviceConnectionString, IsTextField = true };
+					var mobileClientUrl = new Setting { Name = "Mobile client URL", Value = Settings.Current.MobileClientUrl, IsTextField = true };
 
 					deviceConnectionString.PropertyChanged += DeviceConnectionString_PropertyChanged;
 					mobileClientUrl.PropertyChanged += MobileClientUrl_PropertyChanged;
@@ -155,15 +150,6 @@ namespace MyTrips.ViewModel
 				Settings.Current.MetricUnits = setting.Value == "Metric (liters)";
 			}
 		}
-
-		/*void TemperatureSetting_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == "Value")
-			{
-				var setting = (Setting)sender;
-				Settings.Current.MetricUnits = setting.Value == "Celsius";
-			}
-		}*/
 
 		void DeviceConnectionString_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
