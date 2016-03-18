@@ -14,7 +14,7 @@ namespace ObdLibiOS
     {
         const uint BufSize = 1024;
         const int Interval = 100;
-        const string DefValue = "";
+        const string DefValue = "-255";
         private bool _connected = true;
         private Dictionary<string, string> _data = null;
         private Object _lock = new Object();
@@ -137,7 +137,7 @@ namespace ObdLibiOS
             {
                 string s;
                 if (this._simulatormode)
-                    s = "SIMULATOR12345678";
+                    s = "SIMULATORIPHONE12";
                 else
                     s = await GetVIN();
                 lock (_lock)

@@ -13,7 +13,7 @@ namespace ObdLibAndroid
     public class ObdWrapper
     {
         const int Interval = 100;
-        const string DefValue = "";
+        const string DefValue = "-255";
         private BluetoothAdapter _bluetoothAdapter = null;
         private BluetoothDevice _bluetoothDevice = null;
         private BluetoothSocket _bluetoothSocket = null;
@@ -127,7 +127,7 @@ namespace ObdLibAndroid
             string s;
             if (this._simulatormode)
             {
-                s = "SIMULATOR12345678";
+                s = "SIMULATORANDROID1";
                 ret.Add("vin", s);
                 foreach (var cmd in _PIDs.Keys)
                 {

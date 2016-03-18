@@ -40,6 +40,7 @@ namespace MyTrips.UWP.Views
             this.InitializeComponent();
             this.ViewModel = new PastTripsDetailViewModel();
             this.Locations = new List<BasicGeoposition>();
+            DataContext = this;
         }
 
         PastTripsDetailViewModel ViewModel;
@@ -61,11 +62,40 @@ namespace MyTrips.UWP.Views
                 ViewModel.CurrentPosition = this.TripPoints[0];
                 this.UpdateStats();
             }
+            // Enable the back button navigation
+            SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
+            systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested; 
+
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
+            systemNavigationManager.BackRequested -= SystemNavigationManager_BackRequested;
+        }
+
+        private void SystemNavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            if (!e.Handled)
+            {
+                e.Handled = TryGoBack();
+            }
+        }
+
+        private bool TryGoBack()
+        {
+            bool navigated = false;
+            if (this.Frame.CanGoBack)
+            {
+                this.Frame.GoBack();
+                navigated = true;
+            }
+            return navigated;
+        }
         private void MyMap_Loaded(object sender, RoutedEventArgs e)
         {
-            this.MyMap.ZoomLevel = 17;
+            this.MyMap.ZoomLevel = 16;
             if (this.ViewModel.Trip.Points.Count > 0)
                 this.positionSlider.Maximum = this.TripPoints.Count - 1;
             else
@@ -73,12 +103,17 @@ namespace MyTrips.UWP.Views
 
             this.positionSlider.Minimum = 0;
             this.positionSlider.IsThumbToolTipEnabled = false;
+
+            this.text_starttime.Text = ViewModel.Trip.StartTimeDisplay;
+            this.text_endtime.Text = ViewModel.Trip.EndTimeDisplay;
+        
         }
 
         private async void DrawPath()
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
+                
                 MapPolyline mapPolyLine = new MapPolyline();
 
                 Locations = this.TripPoints.Select(s => new BasicGeoposition() { Latitude = s.Latitude, Longitude = s.Longitude }).ToList<BasicGeoposition>();
@@ -88,7 +123,7 @@ namespace MyTrips.UWP.Views
                 mapPolyLine.ZIndex = 1;
                 mapPolyLine.Visible = true;
                 mapPolyLine.StrokeColor = Colors.Red;
-                mapPolyLine.StrokeThickness = 3;
+                mapPolyLine.StrokeThickness = 4;
 
                 // Starting off with the first point as center
                 if (this.Locations.Count > 0)
@@ -152,11 +187,13 @@ namespace MyTrips.UWP.Views
             {
                 // TODO: Need to fix data binding and remove this code. 
                 this.text_time.Text = ViewModel.ElapsedTime;
-                this.text_miles.Text = ViewModel.Distance;
-                this.text_gallons.Text = ViewModel.FuelConsumption;
-                this.text_temp.Text = ViewModel.EngineLoad;
+                this.text_distance.Text = ViewModel.Distance;
+                this.text_fuel.Text = ViewModel.FuelConsumption;
                 this.text_fuelunits.Text = ViewModel.FuelConsumptionUnits;
+                this.text_speed.Text = ViewModel.Speed;
+                this.text_speedunits.Text = ViewModel.SpeedUnits;
                 this.text_distanceunits.Text = ViewModel.DistanceUnits;
+                
             });
 
         }

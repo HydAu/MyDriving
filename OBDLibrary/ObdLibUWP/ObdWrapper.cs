@@ -15,7 +15,7 @@ namespace ObdLibUWP
     {
         const uint BufSize = 64;
         const int Interval = 100;
-        const string DefValue = "";
+        const string DefValue = "-255";
         private StreamSocket _socket = null;
         private RfcommDeviceService _service = null;
         private DataReader dataReaderObject = null;
@@ -148,7 +148,7 @@ namespace ObdLibUWP
             {
                 string s;
                 if (this._simulatormode)
-                    s = "SIMULATOR12345678";
+                    s = "SIMULATORWINPHONE";
                 else
                     s = await GetVIN();
                 lock (_lock)
