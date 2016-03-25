@@ -24,8 +24,8 @@ namespace MyDriving.ViewModel
 
         List<Setting> units;
         //Use Settings.DeviceConnectionString
-        public string PrivacyPolicyUrl => "http://microsoft.com";
-        public string TermsOfUseUrl => "http://microsoft.com";
+        public string PrivacyPolicyUrl => "http://aka.ms/mydriving-privacy";
+        public string TermsOfUseUrl => "http://aka.ms/mydriving-eula";
 
         public string OpenSourceNoticeUrl => "https://github.com/Azure-Samples/MyDriving/tree/master/MobileApp/Licenses"
             ;

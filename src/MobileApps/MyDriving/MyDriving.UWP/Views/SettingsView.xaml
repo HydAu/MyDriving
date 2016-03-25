@@ -4,8 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    x:Name="SETTINGS">
+    mc:Ignorable="d">
 
     <Grid Background="{StaticResource MainBackgroundColor}">
         <ScrollViewer VerticalScrollBarVisibility="Hidden" Margin="15,0,15,0">
@@ -47,8 +46,6 @@
                 <Button Name="PrivacyPolicyButton" Content="Privacy policy"   Click="PrivacyPolicyButton_Click" Style="{StaticResource SettingsAboutButtonStyle}" />
                 <Button Name="OpenSourceNoticeButton" Content="Open Source Notice"   Click="OpenSourceNoticeButton_Click" Style="{StaticResource SettingsAboutButtonStyle}" />
                 <Button Name="OpenSourceGitHubButton" Content="Open Source on GitHub"   Click="OpenSourceGitHubButton_Click" Style="{StaticResource SettingsAboutButtonStyle}" />
-                <Button Name="XamarinButton" Content="Built in C# with Xamarin"  Click="XamarinButton_Click" Style="{StaticResource SettingsAboutButtonStyle}" />
-
 
             </StackPanel>
         </ScrollViewer>
